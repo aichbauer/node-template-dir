@@ -2,6 +2,10 @@
 
 > Copies files and folders from source directory to destination directory (all directories recursively or just files from the source directory) with template style from [template-file](https://github.com/gsandf/template-file#readme)
 
+[![Build Status](https://travis-ci.org/aichbauer/node-template-dir.svg?branch=master)](https://travis-ci.org/aichbauer/node-template-dir)
+[![Build status](https://ci.appveyor.com/api/projects/status/6xmc4f007uoacpcl?svg=true)](https://ci.appveyor.com/project/aichbauer/node-template-dir)
+[![Coverage Status](https://coveralls.io/repos/github/aichbauer/node-template-dir/badge.svg?branch=master)](https://coveralls.io/github/aichbauer/node-template-dir?branch=master)
+
 ## Installation
 
 ```sh
