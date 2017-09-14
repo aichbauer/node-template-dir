@@ -9,7 +9,7 @@
 ## Installation
 
 ```sh
-$ npm i template-dir
+$ npm i template-dir --save
 ```
 
 or
