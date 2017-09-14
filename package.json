@@ -29,7 +29,7 @@
     "type": "git",
     "url": "git+https://github.com/aichbauer/node-template-dir.git"
   },
-  "author": "Lukas Aichbauer <>",
+  "author": "Lukas Aichbauer <l.aichbauer@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/aichbauer/node-template-dir/issues"
