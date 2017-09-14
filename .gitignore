@@ -1,0 +1,7 @@
+node_modules
+npm-debug.log
+dest
+.nyc*
+coverage
+.DS_STORE
+.vscode
