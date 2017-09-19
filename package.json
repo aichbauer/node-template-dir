@@ -1,6 +1,6 @@
 {
   "name": "template-dir",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Copies files and folders from source directory to destination directory (all directories recursively or just files from the source directory) with template style from template-file",
   "main": "./dest/index.js",
   "scripts": {
