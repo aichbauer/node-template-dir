@@ -15,9 +15,13 @@ test.after.always(() => {
   const cwd = process.cwd();
   const destinationFixtures1 = path.join(cwd, 'test', 'fixtures', 'destination1');
   const destinationFixtures2 = path.join(cwd, 'test', 'fixtures', 'destination2');
+  const destinationFixtures3 = path.join(cwd, 'test', 'fixtures', 'destination3');
+  const destinationFixtures4 = path.join(cwd, 'test', 'fixtures', 'destination4');
 
   fs.removeSync(destinationFixtures1);
   fs.removeSync(destinationFixtures2);
+  fs.removeSync(destinationFixtures3);
+  fs.removeSync(destinationFixtures4);
 });
 
 test('TEMPLATE DIR | recursively', (t) => {
@@ -30,7 +34,7 @@ test('TEMPLATE DIR | recursively', (t) => {
     age: '25',
   };
 
-  templateDir(source, destination, onlyFiles, data);
+  templateDir({ source, destination, onlyFiles }, data);
 
   const valueDestinationDir = fs.readdirSync(destination);
   const expectedDestinationDir = [
@@ -39,22 +43,43 @@ test('TEMPLATE DIR | recursively', (t) => {
     'template-1',
   ];
 
-  const valueDestinationDirDir1 = fs.readdirSync(path.join(destination, 'dir-1'));
-  const expectedDestinationDirDir1 = [
+  const valueDestinationDir1 = fs.readdirSync(path.join(destination, 'dir-1'));
+  const expectedDestinationDir1 = [
+    'dir-3',
+    'dir-4',
+    'dir-5',
     'file-1',
   ];
 
-  const valueDestinationDirDir2 = fs.readdirSync(path.join(destination, 'dir-2'));
-  const expectedDestinationDirDir2 = [
+  const valueDestinationDir2 = fs.readdirSync(path.join(destination, 'dir-2'));
+  const expectedDestinationDir2 = [
     'file-2',
   ];
 
+  const valueDestinationDir3 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-3'));
+  const expectedDestinationDir3 = [
+    'file-3',
+  ];
+
+  const valueDestinationDir4 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-4'));
+  const expectedDestinationDir4 = [
+    'file-4',
+  ];
+
+  const valueDestinationDir5 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-5'));
+  const expectedDestinationDir5 = [
+    'file-5',
+  ];
+
   const valueTemplate1 = fs.readFileSync(path.join(destination, 'template-1'), 'utf-8');
-  const expectedTemplate1 = 'My name id Lukas and I am 25 years old.\n';
+  const expectedTemplate1 = 'My name is Lukas and I am 25 years old.\n';
 
   t.deepEqual(valueDestinationDir, expectedDestinationDir);
-  t.deepEqual(valueDestinationDirDir1, expectedDestinationDirDir1);
-  t.deepEqual(valueDestinationDirDir2, expectedDestinationDirDir2);
+  t.deepEqual(valueDestinationDir1, expectedDestinationDir1);
+  t.deepEqual(valueDestinationDir2, expectedDestinationDir2);
+  t.deepEqual(valueDestinationDir3, expectedDestinationDir3);
+  t.deepEqual(valueDestinationDir4, expectedDestinationDir4);
+  t.deepEqual(valueDestinationDir5, expectedDestinationDir5);
   t.is(valueTemplate1, expectedTemplate1);
 });
 
@@ -67,7 +92,7 @@ test('TEMPLATE DIR | files only', (t) => {
     age: '25',
   };
 
-  templateDir(source, destination, onlyFiles, data);
+  templateDir({ source, destination, onlyFiles }, data);
 
   const valueDestinationDir = fs.readdirSync(destination);
   const expectedDestinationDir = [
@@ -75,7 +100,7 @@ test('TEMPLATE DIR | files only', (t) => {
   ];
 
   const valueTemplate1 = fs.readFileSync(path.join(destination, 'template-1'), 'utf-8');
-  const expectedTemplate1 = 'My name id Lukas and I am 25 years old.\n';
+  const expectedTemplate1 = 'My name is Lukas and I am 25 years old.\n';
 
   t.deepEqual(valueDestinationDir, expectedDestinationDir);
   t.is(valueTemplate1, expectedTemplate1);
@@ -86,7 +111,7 @@ test('TEMPLATE DIR | throws', (t) => {
   const wrongSource = path.join(cwd, 'test', 'fixtures', 'sourc');
   const destination = path.join(cwd, 'test', 'fixtures', 'dest');
 
-  t.throws(() => templateDir(wrongSource, destination, false, {}));
+  t.throws(() => templateDir({ source: wrongSource, destination }, {}));
 });
 
 test.serial('TEMPLATE DIR | recursively with default values', async (t) => {
@@ -105,25 +130,92 @@ test.serial('TEMPLATE DIR | recursively with default values', async (t) => {
     'template-1',
   ];
 
-  const valueDestinationDirDir1 = fs.readdirSync(path.join(destination, 'dir-1'));
-  const expectedDestinationDirDir1 = [
+  const valueDestinationDir1 = fs.readdirSync(path.join(destination, 'dir-1'));
+  const expectedDestinationDir1 = [
+    'dir-3',
+    'dir-4',
+    'dir-5',
     'file-1',
   ];
 
-  const valueDestinationDirDir2 = fs.readdirSync(path.join(destination, 'dir-2'));
-  const expectedDestinationDirDir2 = [
+  const valueDestinationDir2 = fs.readdirSync(path.join(destination, 'dir-2'));
+  const expectedDestinationDir2 = [
     'file-2',
   ];
 
+  const valueDestinationDir3 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-3'));
+  const expectedDestinationDir3 = [
+    'file-3',
+  ];
+
+  const valueDestinationDir4 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-4'));
+  const expectedDestinationDir4 = [
+    'file-4',
+  ];
+
+  const valueDestinationDir5 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-5'));
+  const expectedDestinationDir5 = [
+    'file-5',
+  ];
+
   const valueTemplate1 = fs.readFileSync(path.join(destination, 'template-1'), 'utf-8');
-  const expectedTemplate1 = 'My name id  and I am  years old.\n';
+  const expectedTemplate1 = 'My name is  and I am  years old.\n';
+
+  fs.removeSync(destination);
 
   t.deepEqual(valueDestinationDir, expectedDestinationDir);
-  t.deepEqual(valueDestinationDirDir1, expectedDestinationDirDir1);
-  t.deepEqual(valueDestinationDirDir2, expectedDestinationDirDir2);
+  t.deepEqual(valueDestinationDir1, expectedDestinationDir1);
+  t.deepEqual(valueDestinationDir2, expectedDestinationDir2);
+  t.deepEqual(valueDestinationDir3, expectedDestinationDir3);
+  t.deepEqual(valueDestinationDir4, expectedDestinationDir4);
+  t.deepEqual(valueDestinationDir5, expectedDestinationDir5);
   t.is(valueTemplate1, expectedTemplate1);
 
-  fs.removeSync(path.join(destination));
-
   await process.chdir(cwd);
+});
+
+test('TEMPLATE DIR | recursively, with excluding dir-2, dir-4', (t) => {
+  const cwd = process.cwd();
+  const source = path.join(cwd, 'test', 'fixtures', 'source');
+  const destination = path.join(cwd, 'test', 'fixtures', 'destination4');
+  const onlyFiles = false;
+  const exclude = ['dir-2', 'dir-4'];
+  const data = {
+    name: 'Lukas',
+    age: '25',
+  };
+
+  templateDir({ source, destination, onlyFiles, exclude }, data);
+
+  const valueDestinationDir = fs.readdirSync(destination);
+  const expectedDestinationDir = [
+    'dir-1',
+    'template-1',
+  ];
+
+  const valueDestinationDir1 = fs.readdirSync(path.join(destination, 'dir-1'));
+  const expectedDestinationDir1 = [
+    'dir-3',
+    'dir-5',
+    'file-1',
+  ];
+
+  const valueDestinationDir3 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-3'));
+  const expectedDestinationDir3 = [
+    'file-3',
+  ];
+
+  const valueDestinationDir5 = fs.readdirSync(path.join(destination, 'dir-1', 'dir-5'));
+  const expectedDestinationDir5 = [
+    'file-5',
+  ];
+
+  const valueTemplate1 = fs.readFileSync(path.join(destination, 'template-1'), 'utf-8');
+  const expectedTemplate1 = 'My name is Lukas and I am 25 years old.\n';
+
+  t.deepEqual(valueDestinationDir, expectedDestinationDir);
+  t.deepEqual(valueDestinationDir1, expectedDestinationDir1);
+  t.deepEqual(valueDestinationDir3, expectedDestinationDir3);
+  t.deepEqual(valueDestinationDir5, expectedDestinationDir5);
+  t.is(valueTemplate1, expectedTemplate1);
 });
