@@ -52,12 +52,21 @@ The `template-dir` module example **WITH** copying recursive all files and direc
 ```js
 const templateDir = require('template-dir'); // import templateDir from 'template-dir';
 
-// if we set the third arguement to false it copies the complete sourcetree
+// if we set onlyFiles to false it copies the complete directory tree
 // from 'source/directory' to 'destination/directory'
-templateDir('source/directory', 'destination/directory', false, {
-  name: 'Lukas',
-  age: '25',
-});
+// excluding 'dir-1'
+templateDir(
+  {
+    source: 'source/directory', 
+    destination: 'destination/directory',
+    onlyFiles: false,
+    exclude: ['dir-1'], // add as many directories as you want to the array
+  },
+  {
+    name: 'Lukas',
+    age: '25',
+  },
+);
 ```
 
 The example above will copy the source directory tree to the 'destination/directory' and replace all variables within all files
@@ -67,10 +76,6 @@ The destination directory tree:
 ```
 .
 +-- destination/directory/
-    |
-    +-- dir-1
-    |   |
-    |   +-- file-2
     |
     +-- dir-2
     |   |
@@ -92,12 +97,19 @@ The `template-dir` module example **WITHOUT** copying recursive all files and di
 ```js
 const templateDir = require('template-dir'); // import templateDir from 'template-dir';
 
-// if we set the third arguement to true it copies only the files
+// if we set onlyFiles to true it copies only the files
 // within 'source/directory' to 'destination/directory'
-templateDir('source/directory', 'destination/directory', true, {
-  name: 'Lukas',
-  age: '25',
-});
+templateDir(
+  {
+    source: 'source/directory', 
+    destination: 'destination/directory',
+    onlyFiles: true
+  },
+  {
+    name: 'Lukas',
+    age: '25',
+  },
+);
 ```
 
 The example above will only copy the files within the source directory and will not recursively copy all directories and files.
