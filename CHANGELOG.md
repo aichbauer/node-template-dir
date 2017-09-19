@@ -1,3 +1,7 @@
+2.0.1 - September, 19 2017
+
+ * 3e98e77 Docs: update readme for new feat (aichbauer)
+
 2.0.0 - September, 19 2017
 
  * e5a391f Test: update tests for new feat (aichbauer)
